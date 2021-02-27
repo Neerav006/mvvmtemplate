@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="380dp"
+        android:layout_height="198dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShow"
+            android:layout_width="198dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:padding="10dp"
+            android:text="@string/click"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:cornerRadius="25dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:strokeColor="@color/design_default_color_primary_dark" />
+
+        <FrameLayout
+            android:id="@+id/ivAnimation"
+            android:layout_width="198dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:foreground="@drawable/shine_effect"
+            android:orientation="horizontal" />
+
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

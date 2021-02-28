@@ -13,10 +13,13 @@ import com.example.mvvm.data.session.SessionManager
 import com.example.mvvm.model.Post
 import com.example.mvvm.model.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,10 +50,14 @@ class MainViewModel @Inject constructor(
 
     fun getPosts() {
         viewModelScope.launch {
-            repository.getAllPosts()
-                .onStart { _postsLiveData.value = State.loading() }
-                .map { resource -> State.fromResource(resource) }
-                .collect { state -> _postsLiveData.value = state }
+
+                repository.getAllPosts()
+                    .flowOn(Dispatchers.IO)
+                    .onStart { _postsLiveData.value = State.loading() }
+                    .map { resource -> State.fromResource(resource) }
+                    .collect { state -> _postsLiveData.value = state }
+
+
         }
     }
 

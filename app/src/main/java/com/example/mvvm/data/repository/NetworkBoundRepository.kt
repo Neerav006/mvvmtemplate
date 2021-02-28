@@ -76,13 +76,13 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
     /**
      * Saves retrieved from remote into the persistence storage.
      */
-  /*  @WorkerThread
-    protected abstract suspend fun saveRemoteData(response: REQUEST)
+    /* @WorkerThread
+    protected abstract suspend fun saveRemoteData(response: REQUEST)*/
 
-    *//**
-     * Retrieves all data from persistence storage.
-     *//*
-    @MainThread
+    /**
+     * Retrieves all data from persistence storage.*/
+
+   /* @MainThread
     protected abstract fun fetchFromLocal(): Flow<RESULT>*/
 
     /**

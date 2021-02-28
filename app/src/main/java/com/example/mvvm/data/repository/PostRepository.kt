@@ -1,7 +1,11 @@
 package com.example.mvvm.data.repository
 
 import com.example.mvvm.data.remote.api.ApiService
+import com.example.mvvm.data.remote.api.BaseService
+import com.example.mvvm.model.MoviesResponse
 import com.example.mvvm.model.Post
+import com.example.mvvm.model.State
+import com.example.mvvm.utils.AppConstants
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -15,23 +19,27 @@ class DefaultPostRepository @Inject constructor(val service: ApiService) : PostR
      * storage is fetched and emitted.
      */
     @ExperimentalCoroutinesApi
-    override fun getAllPosts(): Flow<Resource<List<Post>>> {
+    override suspend fun getAllPosts(): Flow<Resource<List<Post>>> {
         return object : NetworkBoundRepository<List<Post>, List<Post>>() {
 
-           // override suspend fun saveRemoteData(response: List<Post>) = postsDao.addPosts(response)
+            /*override suspend fun saveRemoteData(response: List<Post>){ }
 
-           // override fun fetchFromLocal(): Flow<List<Post>> = postsDao.getAllPosts()
+            override fun fetchFromLocal(): Flow<List<Post>> {
+                TODO("Not yet implemented")
+            }*/
 
             override suspend fun fetchFromRemote(): Response<List<Post>> = service.getPosts()
         }.asFlow()
     }
 
-    override fun getPostById(postId: Int): Flow<Post> {
-        TODO("Not yet implemented")
-    }
+
+
+    /* override fun getPostById(postId: Int): Flow<Post> {
+         TODO("Not yet implemented")
+     }*/
 
 }
 interface PostRepository {
-    fun getAllPosts(): Flow<Resource<List<Post>>>
-    fun getPostById(postId: Int): Flow<Post>
+    suspend fun  getAllPosts(): Flow<Resource<List<Post>>>
+   // fun getPostById(postId: Int): Flow<Post>
 }

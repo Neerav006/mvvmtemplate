@@ -9,6 +9,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import com.example.mvvm.R
 import com.example.mvvm.data.session.SessionManager
 import com.example.mvvm.databinding.ActivityMainBinding
 import com.example.mvvm.model.State
@@ -31,10 +33,12 @@ class MainActivity: BaseActivity<MainViewModel, ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         setContentView(mViewBinding.root)
 
+
+
         // test session manager token
         sessionManager.saveToken("test auth")
 
-        observePosts()
+       // observePosts()
 
         val fadeOut = ObjectAnimator.ofFloat(mViewBinding.btnShow, "alpha", .6f, .4f)
         fadeOut.duration = 1000

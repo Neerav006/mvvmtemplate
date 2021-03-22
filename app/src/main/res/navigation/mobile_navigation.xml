@@ -12,6 +12,21 @@
         android:label="Home"
         tools:layout="@layout/movie_list_fragment">
 
+        <action
+            android:id="@+id/action_nav_home_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+
+    </fragment>
+    <fragment
+        tools:layout="@layout/movie_detail_fragment"
+        android:id="@+id/movieDetailFragment"
+        android:name="com.example.mvvm.ui.moviedetail.MovieDetailFragment"
+        android:label="MovieDetailFragment" >
+
+        <argument
+            android:name="movie_detail"
+            app:argType="com.example.mvvm.model.MoviesResponse$Movie" />
+
     </fragment>
 
 

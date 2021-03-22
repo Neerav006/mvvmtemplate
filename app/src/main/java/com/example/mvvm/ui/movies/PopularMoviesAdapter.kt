@@ -1,19 +1,18 @@
 package com.example.mvvm.ui.movies
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import com.example.mvvm.databinding.ListItemMoviesBinding
 import com.example.mvvm.model.MoviesResponse
 import com.example.mvvm.ui.base.BaseViewHolder
 
-class PopularMoviesAdapter :
+class PopularMoviesAdapter(val listener:(Int,MoviesResponse.Movie) -> Unit) :
     PagingDataAdapter<MoviesResponse.Movie, PopularMoviesAdapter.ViewHolder>(PopularMoviesDiffUtil) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position)?.let {
-            holder.bindItem(it)
+            holder.bindItem(it,position)
         }
     }
 
@@ -25,19 +24,22 @@ class PopularMoviesAdapter :
 
     inner class ViewHolder(val binding: ListItemMoviesBinding) :
         BaseViewHolder<MoviesResponse.Movie>(binding.root) {
-        override fun bindItem(item: MoviesResponse.Movie?) {
+        override fun bindItem(item: MoviesResponse.Movie?,pos: Int) {
             binding.movie = item
             binding.viewHolder = this
-            onItemClick(item)
+           // onItemClick(item)
+            itemView.setOnClickListener {
+              listener.invoke(pos,item!!)
+            }
             binding.executePendingBindings()
         }
 
         private fun onItemClick(item: MoviesResponse.Movie?) {
-            binding.clickListener = View.OnClickListener {
+            /*binding.clickListener = View.OnClickListener {
                 if (item != null) {
 
                 }
-            }
+            }*/
         }
     }
 }

@@ -11,7 +11,6 @@ import androidx.viewbinding.ViewBinding
 abstract  class BaseFragment<VM : ViewModel, VB : ViewBinding>:Fragment() {
     protected abstract val mViewModel: VM
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

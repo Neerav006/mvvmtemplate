@@ -10,28 +10,33 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvm.R
 import com.example.mvvm.data.session.SessionManager
 import com.example.mvvm.databinding.MovieListFragmentBinding
+import com.example.mvvm.model.MoviesResponse
 import com.example.mvvm.ui.base.BaseFragment
 import com.example.mvvm.ui.base.LoadingStateAdapter
 import com.example.mvvm.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBinding>() {
+class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBinding>() {
 
     override val mViewModel: MovieListViewModel by viewModels()
+    var isViewReloaded = false
+
     @Inject
     lateinit var sessionManager: SessionManager
-    lateinit var mViewBinding:MovieListFragmentBinding
+    lateinit var mViewBinding: MovieListFragmentBinding
 
-    private lateinit var movieAdapter:PopularMoviesAdapter
+    private lateinit var movieAdapter: PopularMoviesAdapter
 
     companion object {
         fun newInstance() = MovieListFragment()
@@ -39,7 +44,8 @@ class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBindi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        movieAdapter = PopularMoviesAdapter()
+        movieAdapter = PopularMoviesAdapter { pos, item -> onItemClick(pos, item) }
+
     }
 
 
@@ -48,12 +54,30 @@ class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBindi
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mViewBinding = MovieListFragmentBinding.inflate(inflater,container,false)
+        if (!::mViewBinding.isInitialized) {
+            mViewBinding = MovieListFragmentBinding.inflate(inflater, container, false)
+        }
         return mViewBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (!isViewReloaded) {
+            callMoviewListAndUpdateUi()
+            isViewReloaded = true
+        }
+    }
+
+    fun onItemClick(pos: Int, item: MoviesResponse.Movie) {
+        findNavController().navigate(
+            MovieListFragmentDirections.actionNavHomeToMovieDetailFragment(
+                item
+            )
+        )
+    }
+
+    fun callMoviewListAndUpdateUi(){
 
         mViewBinding.popularMoviesList.apply {
             layoutManager = LinearLayoutManager(context)
@@ -69,7 +93,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBindi
             }
         }
 
-        mViewBinding.retryButton.setOnClickListener{
+        mViewBinding.retryButton.setOnClickListener {
             movieAdapter.retry()
         }
 
@@ -81,8 +105,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBindi
 
                 // Show ProgressBar
                 mViewBinding.progressBar.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 // Hide ProgressBar
                 mViewBinding.progressBar.visibility = View.GONE
 
@@ -97,9 +120,10 @@ class MovieListFragment : BaseFragment<MovieListViewModel,MovieListFragmentBindi
                     else -> null
                 }
                 errorState?.let {
-                    requireActivity().showToast(it.error.message+"")
+                    requireActivity().showToast(it.error.message + "")
                 }
             }
         }
     }
-    }
+
+}

@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.example.mvvm.R
 import com.example.mvvm.data.session.SessionManager
@@ -29,12 +31,11 @@ class MainActivity: BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override val mViewModel: MainViewModel by viewModels()
 
+    private var currentNavController: LiveData<NavController>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mViewBinding.root)
-
-
-
         // test session manager token
         sessionManager.saveToken("test auth")
 
@@ -96,4 +97,10 @@ class MainActivity: BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     }
 
+
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        return currentNavController?.value?.navigateUp() ?: false
+    }
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/callLogFragment">
 
 
     <fragment
@@ -28,6 +28,11 @@
             app:argType="com.example.mvvm.model.MoviesResponse$Movie" />
 
     </fragment>
+    <fragment
+        android:id="@+id/callLogFragment"
+        android:name="com.example.mvvm.ui.calllog.CallLogFragment"
+        android:label="call_log_fragment"
+        tools:layout="@layout/call_log_fragment" />
 
 
 </navigation>

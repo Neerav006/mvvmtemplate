@@ -12,7 +12,7 @@ import java.net.UnknownHostException
 import com.example.mvvm.model.Result
 
 abstract class BaseService {
-
+// https://medium.com/@douglas.iacovelli/how-to-handle-errors-with-retrofit-and-coroutines-33e7492a912
     protected suspend fun<T: Any> createCall(call: suspend () -> Response<T>) : Result<T> {
 
         val response: Response<T>

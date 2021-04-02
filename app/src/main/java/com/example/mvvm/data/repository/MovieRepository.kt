@@ -11,7 +11,7 @@ class MovieRepository @Inject constructor(
     private val apiService: ApiService
 ) : BaseService() {
 
-    suspend fun fetchPopularMovies(page: Int) : Result<MoviesResponse> {
+   private suspend fun fetchPopularMovies(page: Int) : Result<MoviesResponse> {
         return createCall { apiService.getPopularMovies(AppConstants.API_KEY,page) }
     }
 
